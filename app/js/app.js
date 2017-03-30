@@ -7,12 +7,14 @@ angular.module("InvertedIndexApp", [])
   $scope.indexedFiles = {};
   $scope.displayIndexes = false;
   $scope.displaySearchResult = false;
+  $scope.showError = false;
   $scope.errorHandler = "";
   $scope.phrase = "";
 
   $scope.createIndex = (file) => {
     $scope.fileName = file.name.split('.')[0];
     if (!file.name.toLowerCase().match(/\.json$/)) {
+      $scope.showError = true;
       $scope.errorHandler = `${file.name} is not a JSON file.`;
       return;
     } else {
@@ -48,11 +50,11 @@ angular.module("InvertedIndexApp", [])
       } else {
         const filename  = $scope.searchOption.split('.')[0];
       //  $scope.indexedFiles = invertedIndex.getIndex(filename);
-        $scope.searchResults = invertedIndex.searchIndex(filename, $scope.phrase);
+        $scope.searchResults[filename] = invertedIndex.searchIndex(filename, $scope.phrase);
         $scope.displaySearchResult = true;
         $scope.displayIndexes = false;
-      };
-    }
+      };  
+    }console.log($scope.searchResults);
   }
 }])
 .filter('range', () => (input, range) => {

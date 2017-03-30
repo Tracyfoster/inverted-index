@@ -88,6 +88,7 @@ class InvertedIndex {
       }
       else result.eachWord[word] = [];
     });
+  
     return result;
   }
 
@@ -98,5 +99,4 @@ class InvertedIndex {
     }
     return result;
   }
-
 }
