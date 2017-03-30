@@ -1,9 +1,9 @@
-const alice = require('./alice.json');
-const rabbits = require('./rabbits.json');
-const justwords = require('./justwords.json');
-const notjson = require('./notjson.json');
-const testsplit = require('./testsplit.json');
-const wrongkeys = require('./wrongkeys.js');
+const alice = require('./books/alice.json');
+const rabbits = require('./books/rabbits.json');
+const justwords = require('./books/justwords.json');
+const notjson = require('./books/notjson.json');
+const testsplit = require('./books/testsplit.json');
+const wrongkeys = require('./books/wrongkeys.js');
 
 describe('InvertedIndex Class', () => {
   beforeAll(() => {
