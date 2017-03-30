@@ -12,8 +12,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "app/js/inverted-index.js",
-      "tests/classtest.js"
+      "app/js/invertedIndex.js",
+      "tests/app-test.js"
     ],
 
     // list of files to exclude
@@ -24,7 +24,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "app/js/inverted-index.js": "coverage"
+      "app/js/*.js": "coverage"
     },
 
 

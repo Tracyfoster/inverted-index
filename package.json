@@ -4,8 +4,11 @@
   "description": "An application that implements an inverted index for a list of books",
   "main": "app.js",
   "scripts": {
-    "test": "karma start karma.conf.js"
+    "start": "gulp",
+    "test": "gulp browserify && karma start karma.conf.js",
+    "postinstall": ""
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/andela-tezebuike/inverted-index.git"
@@ -19,7 +22,7 @@
   "dependencies": {
     "browserify": "^14.1.0",
     "coveralls": "^2.12.0",
-    "express": "^4.15.0",
+    "express": "^4.15.2",
     "nodemon": "^1.11.0",
     "vinyl-source-stream": "^1.1.0"
   },

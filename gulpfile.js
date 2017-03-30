@@ -19,9 +19,9 @@ gulp.task('sync', ['browser-sync'], () => {
 });
 
 gulp.task('browserify', () =>
-    browserify('./tests/classtest.js')
+    browserify('./tests/invertedIndex.spec.js')
         .bundle()
-        .pipe(source('classtest.js'))
+        .pipe(source('app-test.js'))
         .pipe(gulp.dest('./tests'))
 );
 
