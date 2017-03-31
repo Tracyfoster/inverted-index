@@ -37,7 +37,9 @@ describe('InvertedIndex Test Suite', () => {
       });
       var reader = new FileReader();
       reader.addEventListener('load', function(e) {
-        expect(e.target.result).toBeTruthy();
+        const fileRead = reader.result
+        expect(fileRead).toBeTruthy();
+        expect(JSON.parse(fileRead) instanceof Object).toBeTruthy();
         done();
      });
     });
