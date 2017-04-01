@@ -14,12 +14,12 @@ class InvertedIndex {
         const reader = new FileReader();
         reader.onload = (e) => {
           const fileToValidate = JSON.parse(reader.result);
-            let response = this.validateFile(fileToValidate);
-            resolve(response);
-        }
-        reader.readAsText(file)
+          let response = this.validateFile(fileToValidate);
+          resolve(response);
+        };
+        reader.readAsText(file);
       }
-      catch(error) {
+      catch (error) {
         reject(error);
       }
     });
@@ -27,6 +27,7 @@ class InvertedIndex {
 
   validateFile(fileToValidate) {
     const fileLength = fileToValidate.length;
+    const result = {};
     for(let key = 0; key < fileLength; key += 1) {
       if (typeof fileToValidate !== 'object'
           || Object.keys(fileToValidate[key]).length !== 2
@@ -34,18 +35,19 @@ class InvertedIndex {
           || fileToValidate[key].text === undefined
           || typeof fileToValidate[key].title !== 'string'
           || typeof fileToValidate[key].text !== 'string') {
-            return {
+            result = {
               success: false,
               message: 'has an invalid JSON format.'
             };
       } else {
-          return {
-            success: true,
-            message: 'File is valid',
-            fileToValidate
-          };
+        result = {
+          success: true,
+          message: 'File is valid',
+          fileToValidate
+        };
       }
     }
+    return result;
   }
 
   tokenize(words) {
@@ -83,15 +85,15 @@ class InvertedIndex {
       const search = {
       eachWord: {},
       numOfDocs: stored.numOfDocs
-       };
+      };
     mySearch.forEach((word) => {
       if (stored.eachWord[word]) {
         search.eachWord[word] = stored.eachWord[word];
       }
       else search.eachWord[word] = [];
     });
-    result[filename] = search;
-  } 
-  return result; 
+      result[filename] = search;
+    } 
+    return result; 
   }
 }
