@@ -1,44 +1,68 @@
+/**
+ * InvertedIndex class
+ * @class
+ */
 class InvertedIndex {
-
-  constructor(){
+  /**
+   * class constructor
+   * @constructor
+   */
+  constructor() {
     this.indexed = {};
   }
 
+  /**
+   * Get the index for a particular file
+   * @function
+   * @param {String} fileName
+   * @return {Object} index object
+   */
   getIndex(fileName) {
-      return this.indexed[fileName];
+    return this.indexed[fileName];
   }
 
+  /**
+   * Read files using FileReader
+   * @function
+   * @param {String} file
+   * @return {Promise} validateFile response
+   */
   readFile(file) {
     return new Promise((resolve, reject) => {
       try {
         const reader = new FileReader();
         reader.onload = (e) => {
           const fileToValidate = JSON.parse(reader.result);
-          let response = this.validateFile(fileToValidate);
+          const response = this.validateFile(fileToValidate);
           resolve(response);
         };
         reader.readAsText(file);
-      }
-      catch (error) {
+      } catch (error) {
         reject(error);
       }
     });
   }
 
+  /**
+   * Validate File
+   * @function
+   * @param {string} fileToValidate content of the file uploaded
+   * @return {Object} result.success should return true or false
+   */
   validateFile(fileToValidate) {
     const fileLength = fileToValidate.length;
-    const result = {};
-    for(let key = 0; key < fileLength; key += 1) {
+    let result = {};
+    for (let key = 0; key < fileLength; key += 1) {
       if (typeof fileToValidate !== 'object'
           || Object.keys(fileToValidate[key]).length !== 2
           || fileToValidate[key].title === undefined
           || fileToValidate[key].text === undefined
           || typeof fileToValidate[key].title !== 'string'
           || typeof fileToValidate[key].text !== 'string') {
-            result = {
-              success: false,
-              message: 'has an invalid JSON format.'
-            };
+        result = {
+          success: false,
+          message: 'has an invalid JSON format.'
+        };
       } else {
         result = {
           success: true,
@@ -50,20 +74,33 @@ class InvertedIndex {
     return result;
   }
 
+  /**
+   * Get individual words from a string of text.
+   * @function
+   * @param {String} words text to be tokenized.
+   * @return {Array} array of string tokens
+   */
   tokenize(words) {
     const pattern = /[ .:;?!~,`'&|()<>{}[\]\r\n/\\]+/;
     return words.toLowerCase().split(pattern);
   }
 
-  createIndex(fileName, book) {
-    let indices = {};
-    book.forEach((book, index) => {
-      let words = "";
+  /**
+   * Create index
+   * @function
+   * @param {string} fileName
+   * @param {Array} books
+   * @return {Object} index object
+   */
+  createIndex(fileName, books) {
+    const indices = {};
+    books.forEach((book, index) => {
+      let words = '';
       words = (`${book.title} ${book.text}`);
       words = this.tokenize(words);
       words.forEach((word) => {
         if (indices[word]) {
-          if (indices[word].indexOf(index) == -1) {
+          if (indices[word].indexOf(index) === -1) {
             indices[word].push(index);
           }
         } else {
@@ -73,27 +110,32 @@ class InvertedIndex {
     });
     this.indexed[fileName] = {
       eachWord: indices,
-      numOfDocs: book.length
+      numOfDocs: books.length
     };
   }
 
+  /**
+   * Search Index.
+   * @function
+   * @param {String} phrase search string
+   * @returns {Object} search result object.
+   */
   searchIndex(phrase) {
     const result = {};
-    for (const filename of Object.keys(this.indexed)) {
+    this.indexed.forEach((filename) => {
       const stored = this.getIndex(filename);
       const mySearch = this.tokenize(phrase);
       const search = {
-      eachWord: {},
-      numOfDocs: stored.numOfDocs
+        eachWord: {},
+        numOfDocs: stored.numOfDocs
       };
-    mySearch.forEach((word) => {
-      if (stored.eachWord[word]) {
-        search.eachWord[word] = stored.eachWord[word];
-      }
-      else search.eachWord[word] = [];
-    });
+      mySearch.forEach((word) => {
+        if (stored.eachWord[word]) {
+          search.eachWord[word] = stored.eachWord[word];
+        } else search.eachWord[word] = [];
+      });
       result[filename] = search;
-    } 
-    return result; 
+    });
+    return result;
   }
 }
