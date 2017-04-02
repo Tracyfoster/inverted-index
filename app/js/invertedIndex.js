@@ -31,9 +31,9 @@ class InvertedIndex {
     return new Promise((resolve, reject) => {
       try {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = () => {
           const fileToValidate = JSON.parse(reader.result);
-          const response = this.validateFile(fileToValidate);
+          const response = InvertedIndex.validateFile(fileToValidate);
           resolve(response);
         };
         reader.readAsText(file);
@@ -49,7 +49,7 @@ class InvertedIndex {
    * @param {string} fileToValidate content of the file uploaded
    * @return {Object} result.success should return true or false
    */
-  validateFile(fileToValidate) {
+  static validateFile(fileToValidate) {
     const fileLength = fileToValidate.length;
     let result = {};
     for (let key = 0; key < fileLength; key += 1) {
@@ -80,7 +80,7 @@ class InvertedIndex {
    * @param {String} words text to be tokenized.
    * @return {Array} array of string tokens
    */
-  tokenize(words) {
+  static tokenize(words) {
     const pattern = /[ .:;?!~,`'&|()<>{}[\]\r\n/\\]+/;
     return words.toLowerCase().split(pattern);
   }
@@ -97,7 +97,7 @@ class InvertedIndex {
     books.forEach((book, index) => {
       let words = '';
       words = (`${book.title} ${book.text}`);
-      words = this.tokenize(words);
+      words = InvertedIndex.tokenize(words);
       words.forEach((word) => {
         if (indices[word]) {
           if (indices[word].indexOf(index) === -1) {
@@ -122,9 +122,10 @@ class InvertedIndex {
    */
   searchIndex(phrase) {
     const result = {};
-    this.indexed.forEach((filename) => {
+    const files = this.indexed;
+    Object.keys(files).forEach((filename) => {
       const stored = this.getIndex(filename);
-      const mySearch = this.tokenize(phrase);
+      const mySearch = InvertedIndex.tokenize(phrase);
       const search = {
         eachWord: {},
         numOfDocs: stored.numOfDocs
@@ -139,3 +140,4 @@ class InvertedIndex {
     return result;
   }
 }
+

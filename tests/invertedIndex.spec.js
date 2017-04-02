@@ -28,15 +28,14 @@ describe('InvertedIndex Test Suite', () => {
   });
 
   describe('The readFile method', () => {
-    
     it('should read a file', () => {
-      beforeEach(function(){
+      beforeEach(() => {
         const eventListener = jasmine.createSpy();
         var dummyFileReader = { addEventListener: eventListener };
         spyOn(window, "FileReader").and.returnValue(dummyFileReader)
       });
-      var reader = new FileReader();
-      reader.addEventListener('load', function(e) {
+      const reader = new FileReader();
+      reader.addEventListener('load', (e) => {
         const fileRead = reader.result;
         expect(fileRead).toBeTruthy();
         expect(JSON.parse(fileRead) instanceof Object).toBeTruthy();
@@ -87,12 +86,12 @@ describe('InvertedIndex Test Suite', () => {
 
   describe('validateFile function', () => {
     it('should return false for a file that is not json', () => {
-      const wrongKeysFile = this.invertedIndex.validateFile(wrongkeys);
+      const wrongKeysFile = InvertedIndex.validateFile(wrongkeys);
       expect(wrongKeysFile.success).toBe(false);
     });
 
     it('should return Object as type of validFile', () => {
-      const validFile = this.invertedIndex.validateFile(rabbits);
+      const validFile = InvertedIndex.validateFile(rabbits);
       expect(validFile.success).toBe(true);
     });
   });
@@ -101,11 +100,11 @@ describe('InvertedIndex Test Suite', () => {
     const words = 'Ralia, The Funk, And now: this is just Rowland';
 
     it('should return Object as type of validFile', () => {
-      expect(this.invertedIndex.tokenize(words)).toBeTruthy();
+      expect(InvertedIndex.tokenize(words)).toBeTruthy();
     });
 
     it('should return the correct array or words', () => {
-      expect(this.invertedIndex.tokenize(words))
+      expect(InvertedIndex.tokenize(words))
         .toEqual(['ralia', 'the', 'funk', 'and', 'now', 'this', 'is', 
           'just', 'rowland']);
     });

@@ -20,6 +20,14 @@
           <a class="navbar-brand" href="#">Inverted Index App</a>
         </div>
       </div>
+    </div>
+  </nav>
+
+<div class="container-fluid wellup">
+  <div class="container-fluid collapse navbar-collapse">
+      <div class="col-md-3 nav-block form-inline">
+        <h3 class="text-center"> About the app</h3>
+      </div>
       <div class="col-md-5 nav-block">
         <div class="form-group">
           <input type="text" class="form-control search-box" ng-model="phrase">
@@ -39,11 +47,9 @@
         </div>
       </div>
     </div>
-  </nav>
-<div class="container-fluid wellup">
+
   <div class="row">
     <div class="col-md-3">
-      <h3> About the app</h3>
       <p> Inverted Index is designed to allow very fast full-text searches. It consists of a list of all the unique words
         that appear in the document, and for each word, a list of documents in which it appears.</p>
       <p>Inverted Index takes in a json file and creates an index of each in the file.
@@ -66,8 +72,6 @@
 
     <div class="col-md-7">
       <p ng-show="showError" class="alert alert-danger text-center text-danger errMsg">{{ errorHandler }}</p>
-      <p class="text-info text-center"> Please select a valid json file </p>
-
       <div class="col-md-4">
         <label for="upload" class="btn btn-primary form-control">Upload</label>
         <input style="display:none" type='file' id ='upload'>
@@ -143,7 +147,7 @@
   </div>
 </div>
 
-<div class="container" style="color: #000;">
+<div class="container" style="color: #fff;">
   <footer>
     <!-- <div class="container-fluid"> -->
       <div>
