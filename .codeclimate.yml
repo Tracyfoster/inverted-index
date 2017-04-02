@@ -1,0 +1,42 @@
+engines:
+  duplications:
+    enabled: false
+    config:
+      languages:
+        #mass_threshold: 30
+        - javascript
+  eslint:
+    enabled: true
+    # ... CONFIG CONTENT ...
+    checks:
+      comma-dangle:
+        enabled: false
+      import/no-unresolved:
+        enabled: false
+      no-console:
+        enabled: false
+      strict:
+        enabled: false
+      no-unused-vars:
+        enabled: false
+      no-undef:
+        enabled: false
+      class-methods-use-this:
+        enabled: false
+      no-param-reassign:
+        enabled: false
+      array-callback-return:
+        enabled: false
+  fixme:
+    enabled: true
+ratings:
+  paths:
+    - "app/js/*"
+languages:
+  JavaScript: true
+exclude_paths:
+- "books/*"
+- "app/css/*"
+- "app/index.html"
+- .travis.yml
+- .eslintrc.json
