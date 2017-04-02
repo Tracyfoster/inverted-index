@@ -1,3 +1,43 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports=[
+  {
+    "title": "This is how Andela works for this",
+    "text": "And now this is just Alice"
+  },
+  {
+    "title": "Lord of the rings",
+    "text": "this Alice ran from a rat to become a rabbit"
+  },
+  {
+    "title": "Abyss & the rabbit-slayer",
+    "text": "this (Alice) ran from the rats' trap; to become a rabbit-slayer"
+  }
+]
+},{}],2:[function(require,module,exports){
+module.exports=[
+  {
+    "title": "Ralia to Alice",
+    "text": "And now this is just to Rowland"
+  },
+  {
+    "title": "Abyss",
+    "text": "this Alice ran from a rat to become a rabbit"
+  }
+]
+
+},{}],3:[function(require,module,exports){
+module.exports=[
+  {
+    "mate": "This is how Andela works for this",
+    "text": "And now this is just Alice"
+  },
+  {
+    "title": "Lord of the rings",
+    "prom": "this Alice ran from a rat to become a rabbit"
+  }
+]
+
+},{}],4:[function(require,module,exports){
 const alice = require('../books/alice.json');
 const rabbits = require('../books/rabbits.json');
 const wrongkeys = require('../books/wrongkeys.json');
@@ -122,3 +162,5 @@ describe('InvertedIndex Test Suite', () => {
     });
   });
 });
+
+},{"../books/alice.json":1,"../books/rabbits.json":2,"../books/wrongkeys.json":3}]},{},[4]);

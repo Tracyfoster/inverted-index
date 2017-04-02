@@ -27,7 +27,7 @@ class InvertedIndex {
    * @param {String} file
    * @return {Promise} validateFile response
    */
-  readFile(file) {
+  static readFile(file) {
     return new Promise((resolve, reject) => {
       try {
         const reader = new FileReader();
