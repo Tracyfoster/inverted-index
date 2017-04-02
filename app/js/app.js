@@ -17,7 +17,7 @@ angular.module('InvertedIndexApp', [])
         $scope.errorHandler = `${file.name} is not a JSON file.`;
         return;
       }
-      invertedIndex.readFile(file).then((response) => {
+      InvertedIndex.readFile(file).then((response) => {
         if (response.success) {
           invertedIndex.createIndex($scope.fileName, response.fileToValidate);
           $scope.$apply(() => {
