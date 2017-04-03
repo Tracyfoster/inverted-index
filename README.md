@@ -23,6 +23,11 @@ The purpose of an inverted index is to allow user perform fast and full text sea
 * Click create index button to output the index of the particular file
 * Full text search can be made at the top left corner of the page.
 
+# **To run locally**
+* Clone the git repository
+* Run `npm install`
+* Run `npm start`.
+
 # **External dependencies for the app**
 * Node.js
 * AngularJS 1.5+
