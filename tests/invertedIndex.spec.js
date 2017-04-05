@@ -31,8 +31,8 @@ describe('InvertedIndex Test Suite', () => {
     it('should read a file', () => {
       beforeEach(() => {
         const eventListener = jasmine.createSpy();
-        var dummyFileReader = { addEventListener: eventListener };
-        spyOn(window, "FileReader").and.returnValue(dummyFileReader)
+        const dummyFileReader = { addEventListener: eventListener };
+        spyOn(window, 'FileReader').and.returnValue(dummyFileReader)
       });
       const reader = new FileReader();
       reader.addEventListener('load', (e) => {
@@ -44,12 +44,12 @@ describe('InvertedIndex Test Suite', () => {
     });
 
     it('should call validateFile', () => {
-      var reader = new FileReader();
-      reader.addEventListener('load', (e) => {
-        const fileRead = reader.result
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        const fileRead = reader.result;
         expect(InvertedIndex.validateFile(fileRead)).toHaveBeenCalled;
         done();
-     });
+      });
     });
 
     it('should return the json file if it is valid', () => {
@@ -85,7 +85,7 @@ describe('InvertedIndex Test Suite', () => {
   });
 
   describe('validateFile function', () => {
-    it('should return false for a file that is not json', () => {
+    it('should return false for a file without title and text', () => {
       const wrongKeysFile = InvertedIndex.validateFile(wrongkeys);
       expect(wrongKeysFile.success).toBe(false);
     });
