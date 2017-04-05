@@ -17,7 +17,7 @@
 The purpose of an inverted index is to allow user perform fast and full text search
 
 # **How can I get started with the project**
-* Open your browser to visit the [homepage]
+* Open your browser to visit the [homepage](https://indexx-app.herokuapp.com/index.html)
 * Upload file to be indexed using the upload button
 * Select file to be indexed using the dropdown box
 * Click create index button to output the index of the particular file
