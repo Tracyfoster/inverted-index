@@ -81,7 +81,6 @@ class InvertedIndex {
       });
     } catch (error) {
       if (error.success === false) return errorMsg;
-      throw error;
     }
     return result;
   }
