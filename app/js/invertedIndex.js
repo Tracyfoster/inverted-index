@@ -50,30 +50,41 @@ class InvertedIndex {
    * @return {Object} result.success should return true or false
    */
   static validateFile(fileToValidate) {
-    const fileLength = fileToValidate.length;
     let result = {};
-    for (let key = 0; key < fileLength; key += 1) {
-      if (typeof fileToValidate !== 'object'
-          || Object.keys(fileToValidate[key]).length !== 2
-          || fileToValidate[key].title === undefined
-          || fileToValidate[key].text === undefined
-          || typeof fileToValidate[key].title !== 'string'
-          || typeof fileToValidate[key].text !== 'string') {
-        result = {
-          success: false,
-          message: 'has an invalid JSON format.'
-        };
-      } else {
-        result = {
-          success: true,
-          message: 'File is valid',
-          fileToValidate
-        };
-      }
+    const errorMsg = {
+      success: false,
+      message: 'has an invalid JSON format.'
+    };
+    try {
+      result = {
+        success: true,
+        message: 'File is valid',
+        fileToValidate
+      };
+      fileToValidate.forEach((book) => {
+        if (typeof book !== 'object' || Object.keys(book).length !== 2) {
+          errorMsg.message = 'does not have the right format';
+          throw errorMsg;
+        }
+        if (book.title === undefined || book.text === undefined) {
+          errorMsg.message = 'does not have title or text defined';
+          throw errorMsg;
+        }
+        if (typeof book.title !== 'string' || typeof book.text !== 'string') {
+          errorMsg.message = 'Title and text values should be String';
+          throw errorMsg;
+        }
+        if (book.title === '' || book.text === '') {
+          errorMsg.message = 'cannot be empty';
+          throw errorMsg;
+        }
+      });
+    } catch (error) {
+      if (error.success === false) return errorMsg;
+      throw error;
     }
     return result;
   }
-
   /**
    * Get individual words from a string of text.
    * @function
