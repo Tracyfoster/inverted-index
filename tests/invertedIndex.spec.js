@@ -1,6 +1,8 @@
 const alice = require('../books/alice.json');
 const rabbits = require('../books/rabbits.json');
 const wrongkeys = require('../books/wrongkeys.json');
+const oneKey = require('../books/oneKey.json');
+const emptyString = require('../books/emptystring.json');
 
 describe('InvertedIndex Test Suite', () => {
   beforeAll(() => {
@@ -93,6 +95,21 @@ describe('InvertedIndex Test Suite', () => {
     it('should return Object as type of validFile', () => {
       const validFile = InvertedIndex.validateFile(rabbits);
       expect(validFile.success).toBe(true);
+    });
+    it('should return false for a file without title and text', () => {
+      try {
+        InvertedIndex.validateFile(oneKey);
+      } catch (error) {
+        expect(error.message).toBe('does not have the right format');
+      }
+    });
+
+    it('should return Object as type of validFile', () => {
+      try {
+        InvertedIndex.validateFile(emptyString);
+      } catch (error) {
+        expect(error.message).toBe('cannot be empty');
+      }
     });
   });
 
