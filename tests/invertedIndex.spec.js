@@ -3,6 +3,7 @@ const rabbits = require('../books/rabbits.json');
 const wrongkeys = require('../books/wrongkeys.json');
 const oneKey = require('../books/oneKey.json');
 const emptyString = require('../books/emptystring.json');
+const valueCheck = require('../books/valuecheck.json');
 
 describe('InvertedIndex Test Suite', () => {
   beforeAll(() => {
@@ -87,28 +88,39 @@ describe('InvertedIndex Test Suite', () => {
   });
 
   describe('validateFile function', () => {
-    it('should return false for a file without title and text', () => {
-      const wrongKeysFile = InvertedIndex.validateFile(wrongkeys);
-      expect(wrongKeysFile.success).toBe(false);
-    });
-
-    it('should return Object as type of validFile', () => {
-      const validFile = InvertedIndex.validateFile(rabbits);
-      expect(validFile.success).toBe(true);
-    });
-    it('should return false for a file without title and text', () => {
+    it('should throw error for a file without title and text', () => {
       try {
-        InvertedIndex.validateFile(oneKey);
+        InvertedIndex.validateFile(wrongkeys);
       } catch (error) {
-        expect(error.message).toBe('does not have the right format');
+        expect(error.message).toBe('does not have title or text defined');
       }
     });
 
     it('should return Object as type of validFile', () => {
+      const validFile = InvertedIndex.validateFile(rabbits);
+      expect(validFile.fileToValidate instanceof Object).toBeTruthy();
+    });
+    it('should throw error for a file with one key', () => {
+      try {
+        InvertedIndex.validateFile(oneKey);
+      } catch (error) {
+        expect(error.message).toBe('has not only one key');
+      }
+    });
+
+    it('should throw error for a file with empty string', () => {
       try {
         InvertedIndex.validateFile(emptyString);
       } catch (error) {
         expect(error.message).toBe('cannot be empty');
+      }
+    });
+
+    it('should throw error for a file without string values', () => {
+      try {
+        InvertedIndex.validateFile(valueCheck);
+      } catch (error) {
+        expect(error.message).toBe('Title and text values should be String');
       }
     });
   });
