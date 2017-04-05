@@ -4,13 +4,13 @@
   "env": {
     "node": true,
     "es6": true,
-    "mocha": true,
     "jquery": true,
     "jasmine": true
   },
   "globals": {
     "angular": true,
-    "InvertedIndex": true
+    "InvertedIndex": true,
+    "window": true
   },
   "ecmaFeatures": {
     "ecmaVersion": 6,
