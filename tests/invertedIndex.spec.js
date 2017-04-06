@@ -152,9 +152,11 @@ describe('InvertedIndex Test Suite', () => {
 
     it('should return the result of searchIndex for alice', () => {
       const searchResult = {
-        eachWord: { alice: [0, 1, 2] },
+        eachWord: {
+          alice: [0, 1, 2],
+          jump: [] },
         numOfDocs: 3 };
-      expect(this.invertedIndex.searchIndex('alice', 'alice')).toEqual(searchResult);
+      expect(this.invertedIndex.searchIndex('alice jump', 'alice')).toEqual(searchResult);
     });
 
     it('should return object as type of searchIndex for rabbits', () => {
