@@ -144,7 +144,7 @@ class InvertedIndex {
             }
           } else search.eachWord[word] = [];
         });
-        result[filename] = search;
+        result[file] = search;
       });
     } else {
       const storedIndex = this.getIndex(filename);

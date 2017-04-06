@@ -91,13 +91,13 @@ describe('InvertedIndex Test Suite', () => {
   });
 
   describe('getIndex function', () => {
+    it('should not return an index for a file that is not indexed', () => {
+      expect(this.invertedIndex.getIndex('wrongkeys')).toBeFalsy();
+    });
+    
     it('should return an index for an indexed file', () => {
       expect(this.invertedIndex.getIndex('alice')).toBeTruthy();
     });
-
-    // it('should not return an index for a file that is not indexed', () => {
-    //   expect(this.invertedIndex.getIndex('wrongkeys')).toBeFalsy();
-    // });
   });
 
   describe('validateFile function', () => {
@@ -146,7 +146,6 @@ describe('InvertedIndex Test Suite', () => {
 
   describe('searchIndex function', () => {
     it('should return object as type of searchIndex for alice', () => {
-      // expect(alice).toEqual({});
       const searchResult = this.invertedIndex.searchIndex('alice', 'alice');
       expect(searchResult instanceof Object).toBeTruthy();
     });
@@ -159,8 +158,19 @@ describe('InvertedIndex Test Suite', () => {
     });
 
     it('should return object as type of searchIndex for rabbits', () => {
-      const searchResult = this.invertedIndex.searchIndex('alice jump', 'rabbits');
-      expect(searchResult instanceof Object).toBeTruthy();
+      const searchResult = {
+        alice: {
+          eachWord: {
+            alice: [0, 1, 2],
+            jump: [] },
+          numOfDocs: 3 },
+        rabbits: {
+          eachWord: {
+            alice: [0, 1],
+            jump: [] },
+          numOfDocs: 2 }
+      };
+      expect(this.invertedIndex.searchIndex('alice jump', 'All')).toEqual(searchResult);
     });
   });
 });
