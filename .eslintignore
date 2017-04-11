@@ -3,4 +3,3 @@ README.md
 package.json
 gulpfile.js
 karma.conf.js
-tests/invertedIndex.spec.js

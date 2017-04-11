@@ -17,7 +17,7 @@
 The purpose of an inverted index is to allow user perform fast and full text search
 
 # **How can I get started with the project**
-* Open your browser to visit the [homepage]
+* Open your browser to visit the [homepage](https://indexx-app.herokuapp.com/index.html)
 * Upload file to be indexed using the upload button
 * Select file to be indexed using the dropdown box
 * Click create index button to output the index of the particular file
@@ -41,19 +41,13 @@ The purpose of an inverted index is to allow user perform fast and full text sea
 # **Limitations of the project**
 * This application can only work for one file at a time.
 * Files must be in json format with ```title``` and ```text``` as keys.
-- For example:\```javascript
-[
-  {
-    "title": "How to Read a book",
-    "text": "Men are rational animals. Their rationality agreement is the source of their power to agree. "
-  },
+* For example:
 
-  {
-    "title": "The Naked Ape.",
-    "text": "Indeed, we have the most subtle and complex facial expression system of all living animals."
-  }
-]
-```
+      {
+        "title": "The Naked Ape.",
+        "text": "Indeed, we have the most subtle and complex facial expression system of all living animals."
+      }
+
 
 # **Contributing to the project**
 * Fork this repository to your account.
