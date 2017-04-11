@@ -42,7 +42,8 @@ angular.module('InvertedIndexApp', [])
       if ($scope.phrase.length < 1) {
         $scope.errorHandler = 'Please enter a word to search';
       } else if ($scope.searchOption === 'All') {
-        $scope.searchResults = invertedIndex.searchIndex($scope.phrase, filename);
+        $scope.searchResults = invertedIndex
+          .searchIndex($scope.phrase, filename);
         $scope.displaySearchResult = true;
         $scope.displayIndexes = false;
       } else {
