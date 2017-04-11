@@ -156,7 +156,7 @@ describe('InvertedIndex Test Suite', () => {
             alice: [0, 1, 2],
             jump: [] },
           count: 3 } };
-      expect(invertedIndex.searchIndex('alice jump', 'alice'))
+      expect(invertedIndex.searchIndex('alice jump alice', 'alice'))
         .toEqual(searchResult);
     });
 
