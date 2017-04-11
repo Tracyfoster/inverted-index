@@ -1,67 +1,112 @@
+/**
+ * InvertedIndex class
+ * @class
+ */
 class InvertedIndex {
-
-  constructor(){
+  /**
+   * class constructor
+   * @constructor
+   */
+  constructor() {
     this.indexed = {};
+    this.filenames = [];
   }
 
+  /**
+   * Get the index for a particular file
+   * @function
+   * @param {String} fileName
+   * @return {Object} returns the indexed object
+   */
   getIndex(fileName) {
-      return this.indexed[fileName];
+    return this.indexed[fileName];
   }
 
-  readFile(file) {
+  /**
+   * Read files using FileReader
+   * @function
+   * @param {String} file
+   * @return {Promise} from validateFile response
+   */
+  static readFile(file) {
     return new Promise((resolve, reject) => {
       try {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = () => {
           const fileToValidate = JSON.parse(reader.result);
-            let response = this.validateFile(fileToValidate);
-            resolve(response);
-        }
-        reader.readAsText(file)
-      }
-      catch(error) {
+          const response = InvertedIndex.validateFile(fileToValidate);
+          resolve(response);
+        };
+        reader.readAsText(file);
+      } catch (error) {
         reject(error);
       }
     });
   }
 
-  validateFile(fileToValidate) {
-    const fileLength = fileToValidate.length;
-    for(let key = 0; key < fileLength; key += 1) {
-      if (typeof fileToValidate !== 'object'
-          || Object.keys(fileToValidate[key]).length !== 2
-          || fileToValidate[key].title === undefined
-          || fileToValidate[key].text === undefined
-          || typeof fileToValidate[key].title !== 'string'
-          || typeof fileToValidate[key].text !== 'string') {
-            return {
-              success: false,
-              message: 'has an invalid JSON format.'
-            };
-      } else {
-          return {
-            success: true,
-            message: 'File is valid',
-            fileToValidate
-          };
-      }
+  /**
+   * Validate File
+   * @function
+   * @param {string} fileToValidate content of the file uploaded
+   * @return {Object} returns either errorMsg or result.
+   */
+  static validateFile(fileToValidate) {
+    let result = {};
+    const errorMsg = {
+      success: false,
+      message: 'has an invalid JSON format.'
+    };
+    try {
+      result = {
+        success: true,
+        message: 'File is valid',
+        fileToValidate
+      };
+      fileToValidate.forEach((book) => {
+        if (typeof book !== 'object' || Object.keys(book).length !== 2) {
+          errorMsg.message = 'has not only one key';
+          throw errorMsg;
+        }
+        if (book.title === undefined || book.text === undefined) {
+          errorMsg.message = 'does not have title or text defined';
+          throw errorMsg;
+        }
+        if (book.title === '' || book.text === '') {
+          errorMsg.message = 'cannot be empty';
+          throw errorMsg;
+        }
+      });
+    } catch (error) {
+      if (error.success === false) return errorMsg;
     }
+    return result;
   }
-
-  tokenize(words) {
+  /**
+   * Get individual words from a string of text.
+   * @function
+   * @param {String} words text to be tokenized.
+   * @return {Array} array of string tokens
+   */
+  static tokenize(words) {
     const pattern = /[ .:;?!~,`'&|()<>{}[\]\r\n/\\]+/;
     return words.toLowerCase().split(pattern);
   }
 
-  createIndex(fileName, book) {
-    let indices = {};
-    book.forEach((book, index) => {
-      let words = "";
-      words = (`${book.title} ${book.text}`);
-      words = this.tokenize(words);
-      words.forEach((word) => {
+  /**
+   * Creates an index object from the file content and stores it
+   * @function
+   * @param {String} fileName name of uploaded file
+   * @param {Array} books content of uploaded file
+   * @return {Object} index of the uploaded file
+   */
+  createIndex(fileName, books) {
+    const indices = {};
+    books.forEach((book, index) => {
+      let tokens = `${book.title} ${book.text}`;
+      tokens = InvertedIndex.tokenize(tokens);
+      tokens.forEach((word) => {
         if (indices[word]) {
-          if (indices[word].indexOf(index) == -1) {
+          if (indices[word].indexOf(index) === -1) {
             indices[word].push(index);
           }
         } else {
@@ -69,29 +114,39 @@ class InvertedIndex {
         }
       });
     });
+    this.filenames.push(fileName);
     this.indexed[fileName] = {
       eachWord: indices,
-      numOfDocs: book.length
+      count: books.length
     };
   }
 
-  searchIndex(phrase) {
+  /**
+   * Searches the index
+   * @function
+   * @param {String} phrase string containing word(s) to be searched for
+   * @param {Object} filename name of an indexed file or All.
+   * @return {Object} search result with eachword and number of documents.
+   */
+  searchIndex(phrase, filename) {
     const result = {};
-    for (const filename of Object.keys(this.indexed)) {
-      const stored = this.getIndex(filename);
-      const mySearch = this.tokenize(phrase);
+    const files = (filename === 'All') ? this.filenames : [filename];
+    files.forEach((file) => {
+      const storedIndex = this.getIndex(file);
+      const searchWords = InvertedIndex.tokenize(phrase);
       const search = {
-      eachWord: {},
-      numOfDocs: stored.numOfDocs
-       };
-    mySearch.forEach((word) => {
-      if (stored.eachWord[word]) {
-        search.eachWord[word] = stored.eachWord[word];
-      }
-      else search.eachWord[word] = [];
+        eachWord: {},
+        count: storedIndex.count
+      };
+      searchWords.forEach((word) => {
+        if (storedIndex.eachWord[word]) {
+          if (!(search.eachWord[word] in search)) {
+            search.eachWord[word] = storedIndex.eachWord[word];
+          }
+        } else search.eachWord[word] = [];
+      });
+      result[file] = search;
     });
-    result[filename] = search;
-  } 
-  return result; 
+    return result;
   }
 }
